@@ -76,4 +76,5 @@ rule motif_finder:
 	log:
 		("results/tombo_compare/{strain}/benchmarks/modified_motifs.log")
 	shell:
-		"meme -oc {params.motifs} -dna -mod zoops {input.sites} -nmotifs 5 "
+		"meme -oc {params.motifs} -dna -mod zoops {input.sites} -nmotifs 5 -maxsize 1500000 "
+		##max size set very high due to increased number of sites and increased bp output for each site. Maxsize is measured in characters. 
