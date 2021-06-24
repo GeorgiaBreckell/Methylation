@@ -24,22 +24,40 @@
 # Include the 5% line and value on the plots for record keeping. 
 #Change the scripts to run on single files at a time. 
 
+#2. 
+#After filtering the reads I output a tab file that contains only the genome sites that meet the p.value cut off 
+
+# I then use that file to determine the fraction of modified sites for each methyltransferase 
+
+# All of this is currently only done for DAM and DCM 
+
+#3. I then find the fraction of modified sites in each genomic region and plot this. 
+
+#4. Un-complete step is to overlay the fraction of modified sites with an anotated genome. 
+
+#Ideally run on agnes, therefore, dir structure is results/nd_merged/{strain}_{sample}_difference.rds
+
 configfile: 
-	"methylation_samples.yml"
+	"bin/methylation_analysis.yml"
 
 rule all:
 	input:
 		expand("results/nanodisco/filtered_rds/{strain}/{sample}_{motif}_filtered_rds.tab", sample=config["sample"],motif=config["motif"], strain=config["strain"])
 
-rule nanodisco_filter_rds
+rule nanodisco_filter_rds:
 	input:
-		sites="data/motif_sites/{strain}/{motif}_positions.tab",
-		random_sites = "data/motif_sites/random_sites/{strain}_{motif}.tab",
-		unfiltered_rds="results/nanodisco/sample_RDS_files/{sample}_difference.RDS"
+		sites="data/motif_locations/{motif}_{strain}_positions.tab",
+		unfiltered_rds="results/nd_merged/{strain}/{sample}_difference.RDS"
 	params:
-		filter_level= "5"
+		filter_level= "0.05"
 	output:
 		filtered_rds="results/nanodisco/filtered_rds/{strain}/{sample}_{motif}_filtered_rds.tab"
 	shell:
-		"Rscript bin/filter_rds.R {input.unfiltered_rds} {input.sites} {input.random_sites} {params.filter_level} "
+		"Rscript bin/filter_rds.R {input.unfiltered_rds} {input.sites} {params.filter_level} "
+
+rule fraction_modified_sites: 
+	input:
+		sites="data/motif_locations/{strain}_{motif}_positions.tab",
+		filtered_rds="results/filtered_rds/{strain}_{sample}_{motif}_filtered_rds.tab"
+
 
