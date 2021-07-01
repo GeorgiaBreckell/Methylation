@@ -1,0 +1,10 @@
+strain:
+    - B2
+#    - H5
+#    - H6
+#    - F6
+
+sample:
+    - WGAtest
+#    - M9_two 
+#    - lag_one
