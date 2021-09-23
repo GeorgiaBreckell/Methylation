@@ -6,9 +6,9 @@ library(magick)
 # data files
 setwd("~/Documents/natural_isolates_methylation/")
 
-filtered_rds_filename <-  commandArgs(trailingOnly=T)[1] #"results/nanodisco/filtered_rds/F6/F6_2_37_DAM_filtered_rds.tab" #
+filtered_rds_filename <- "results/nanodisco/filtered_rds/F6/F6_1_M9_DAM_filtered_rds.tab" # commandArgs(trailingOnly=T)[1] #"results/nanodisco/filtered_rds/F6/F6_2_37_DAM_filtered_rds.tab" #
 
-motif_sites_filename<-  commandArgs(trailingOnly = T)[2] #"data/motif_locations/DAM_F6_positions.tab"  #
+motif_sites_filename<-  "data/motif_locations/DAM_F6_positions.tab"  #commandArgs(trailingOnly = T)[2] #
 
 filtered_rds <- read_delim(filtered_rds_filename,"\t", escape_double = FALSE, trim_ws = TRUE)
 motif_sites <- read.table(motif_sites_filename)
@@ -40,6 +40,8 @@ motifs_sites_clean<-motif_sites%>%
 # 1 bp downstream
 window <- 2
 
+
+
 #Add a vector to store the fraction values for each strain 
 motif_fraction_test<-vector()
 
@@ -69,6 +71,11 @@ for (i in 1:length(motifs_sites_clean$Site)) {
     nat_cov<-pos.mod[pos.min,"N_nat"]
     motifs_sites_clean[i,5]<-wga_cov
     motifs_sites_clean[i,6]<-nat_cov
+  } else {
+      wga_cov<-filtered_rds[i,5]
+      nat_cov<-filtered_rds[i,6]
+      motifs_sites_clean[i,5]<-wga_cov
+      motifs_sites_clean[i,6]<-nat_cov  
   }
 }
 
