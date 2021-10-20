@@ -1,0 +1,71 @@
+#nanodisco config file
+
+strain:
+    - B2
+#    - H8
+#    - E1
+#    - H2
+#    - H5
+#    - H6
+#    - F6
+
+sample:
+    - B2_1_M9
+    - B2_2_M9
+#    - B2_1_96
+#    - B2_1_LB
+#    - B2_1_25
+#    - B2_1_42
+#    - B2_2_42
+#    - E1_1_37
+#    - E1_2_37
+#    - E1_1_42
+#    - E1_1_96
+#    - E1_1_LB
+#    - E1_2_25
+#    - F6_1_M9
+#    - F6_2_M9
+#    - F6_1_96
+#    - F6_1_25
+#    - F6_1_LB
+
+motif:
+#B2    
+    - DAM 
+    - DCM
+    - GIX
+    - KII
+
+#H8    
+#    - DAM 
+#    - DCM
+#    - HK3I
+#    - GIX
+#    - KII
+
+#E1    
+#    - DAM 
+#    - DCM
+#    - KII
+
+#H2    
+#    - DAM 
+#    - DCM
+#    - KII
+
+#H5    
+#    - DAM 
+#    - DCM
+#    - GIX
+#    - KII
+
+#H6    
+#    - DAM 
+#    - DCM
+#    - GVI
+
+#F6    
+#    - DAM 
+#    - DCM
+#    - GVI
+#    - GIX
