@@ -1,7 +1,5 @@
 ###NanoDisco Snakemake 
 
-
-
 configfile:
     "nano_config.yml"
 
@@ -12,11 +10,7 @@ rule all:
         expand("/scratch/georgia/methylation/results/nd_preprocessed/{strain}/{sample}_native.sorted.bam", strain=config["strain"],sample=config["sample"]),
         expand("/scratch/georgia/methylation/results/nd_preprocessed/{strain}/{strain}_WGA.sorted.bam",strain=config["strain"]),
         expand("/scratch/georgia/methylation/results/nd_difference/{strain}/{sample}_complete.marker",strain=config["strain"],sample=config["sample"]),
-        expand("/scratch/georgia/methylation/results/nd_merged/{strain}/{sample}_difference.RDS",strain=config["strain"],sample=config["sample"]),
-
-        #expand("results/rebase/{strain}_rebase.paf", strain=config["strain"]),
-        #expand("results/rebase/{strain}_MTase.pooled", strain=config["strain"]), ### I think I copied the header from another snakemake as these
-        #expand("results/abricate/{strain}_abricate.tsv", strain=config["strain"]) ### are probably not relevant 
+        expand("/scratch/georgia/methylation/results/nd_merged/{strain}/{sample}_difference.RDS",strain=config["strain"],sample=config["sample"])
 
 rule NanoDisco_Preprocess_native:
     input:
@@ -69,7 +63,6 @@ rule NanoDisco_merge:
     shell:
         "nanodisco merge  -d {params.in_dir} -o {params.out_dir} -b {params.sample}"
 
-#"data/nd_merged/{strain}_difference.RDS"
 
       
 
