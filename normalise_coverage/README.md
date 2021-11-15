@@ -14,7 +14,7 @@ samtools index all_reads_sorted_mapping.bam
 samtools view -h all_reads_sorted_mapping.bam {contig_name} | samtools fastq - > {contig_name}_mapped.fastq
 samtools view -h all_reads_sorted_mapping.bam {contig_name} | samtools depth - > {contig_name}_mapped_coverage.txt
 ```
-Repeat for each contig in the genome
+Repeat for each contig in the genome 
 
 4. ### Calculate the 5th percentile coverage for each contig, I used R. 
 ```

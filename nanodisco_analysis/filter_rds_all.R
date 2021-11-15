@@ -6,7 +6,7 @@ library(magick)
 #######
 #Set the dir to the strain of interest.
 #######
-setwd("~/Documents/natural_isolates_methylation/")
+setwd("/scratch/georgia/methylation/")
 ########
 
 unfiltered_rds_filename <- commandArgs(trailingOnly=T)[1]  #"results/nd_merged/F6/F6_1_LB_difference.RDS" #
@@ -133,11 +133,6 @@ df<-motif_sites_1m%>%
 
 pval_cutoff<-motif_random[as.integer(length(motif_random[,4])*filter_perc),4]
 
-#pval_cutoff<- -4.02
-
-#print(length(motif_random_fwd[,4]))
-#print(filter_perc)
-#print(pval_cutoff)
 
 motif_plot<-ggplot(df,aes(x=Pval,y=(1:length(Pval)/length(Pval)) ))+
   geom_point()+
@@ -155,7 +150,7 @@ motif_plot
 ggsave(plot=motif_plot,filename = paste0("pvalue_cutoff_",filenames,"_",motif,".pdf"), width = 9, height = 10, units = "in", path="./results/nanodisco/cutoff_plots"  )
 
 
-#filter the rds base on the cutoff 
+#filter the rds based on the cutoff 
 
 filtered_rds<-unfiltered_rds%>%
   mutate(u_test_pval_log=log10(u_test_pval))%>%
@@ -217,7 +212,7 @@ for (i in 1:length(motifs_sites_clean$Site)) {
     pos.abs<-abs(pos.mod$position-motifs_sites_clean[i,2])
     pos.min<-which(pos.abs==min(pos.abs))
     p.values<-pos.mod[pos.min,"u_test_pval_log"]
-    p.value.min<-which(p.values==min(p.values))
+    p.value.min<-which(p.values==min(p.values,na.rm=TRUE))
     wga_cov<- pos.mod[pos.min[p.value.min],5]
     nat_cov<- pos.mod[pos.min[p.value.min],6]
     motifs_sites_clean[i,5]<-wga_cov

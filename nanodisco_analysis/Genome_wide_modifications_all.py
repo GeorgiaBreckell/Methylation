@@ -59,8 +59,8 @@ def mod_site_detection(sites,modified_sites,window_count,contig):
                 #return(modified_sites)    
 
 
-window=4000
-jump=4000
+window=10000
+jump=10000
 
 contigs = contig_lengths(genome)
 print("The contigs are " + str(contigs))
