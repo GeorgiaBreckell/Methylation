@@ -5,48 +5,30 @@ library(yaml)
 #generates a yaml file with the genome divided into set sized windows, one file per contig. 
 
 
-F6_genome<-read.fasta(file="data/nanodisco_genomes/F6_polished_genome.fasta")
+filename<- commandArgs(trailingOnly=T)[1] #"data/nanodisco_genomes/F6_polished_genome.fasta" 
+genome<-read.fasta(file=filename)
 
-F6_contig_1<-F6_genome[[1]]
+strain<-filename%>%
+  str_remove("data/nanodisco_genomes/")%>%
+  str_remove("_polished_genome.fasta")
 
-F6_len_1<-length(F6_contig_1)
-
-F6_wins_start_1<-seq(1,F6_len_1,by=5000)
-
-F6_wins_end_1<-seq(5000,F6_len_1,by=5000)
-
-F6_wins_end_1<-append(F6_wins_end_1,F6_len_1)
-
-windows_contig_1<-cbind(F6_wins_start_1,F6_wins_end_1)
-
-windows_contig_1<-as_tibble(windows_contig_1)%>%
-  unite(windows_contig_1,sep="-")
-
-F6_contig_4<-F6_genome[[4]]
-
-F6_len_4<-length(F6_contig_4)
-
-F6_wins_start_4<-seq(1,F6_len_4,by=5000)
-
-F6_wins_end_4<-seq(5000,F6_len_4,by=5000)
-
-F6_wins_end_4<-append(F6_wins_end_4,F6_len_4)
-
-windows_contig_4<-cbind(F6_wins_start_4,F6_wins_end_4)
-
-windows_contig_4<-as_tibble(windows_contig_4)%>%
-  unite(windows_contig_4,sep="-")
+for (i in 1:length(genome)){
+  contig<-genome[[i]]
+  len<-length(contig)
+  wins_start<-seq(1,len,by=5000)
+  wins_end<-seq(5000,len,by=5000)
+  wins_end<-append(wins_end,len)
+  windows<-cbind(wins_start,wins_end)
+  windows<-as_tibble(windows)%>%
+    unite(windows,sep="-")
+  write_yaml(windows, paste0("results/",strain,"_windows_contig_",i,".yaml"))
+}
 
 
 #Every column header becomes a key, and the values become the values for the Yaml, 
 #Ideally I would have an extra column with a single value being strain:F6 etc. 
 #But if I have a column with one values the others get filled as NA and write_yaml writes NA for each one
 #So I've been adding the strain key:value to the top of each file before using it. 
-#windows[1,2]<-"F6"
-
-write_yaml(windows_contig_1, "results/F6_windows_contig_1.yaml")
-write_yaml(windows_contig_4, "results/F6_windows_contig_4.yaml")
-
 
 #No issues with the Indenting, and the use of scientific notation when running the snakemake
 

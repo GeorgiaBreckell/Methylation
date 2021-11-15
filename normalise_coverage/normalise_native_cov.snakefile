@@ -18,7 +18,7 @@ rule extract_reads_per_window_1:
     output:
         "even_native_coverage/{strain}/{sample}_contig_1_fastqs/{window}_all_reads.fastq"
     shell:
-        "bash Bin/filtering_by_window.sh {input.mapped} {params} {output} "
+        "bash Bin/normalise_coverage/filtering_by_window.sh {input.mapped} {params} {output} "
 
 rule filter_fastq_1:
     input:
@@ -38,7 +38,7 @@ rule extract_reads_per_window_2:
     output:
         "even_native_coverage/{strain}/{sample}_contig_2_fastqs/{window}_all_reads.fastq"
     shell:
-        "bash Bin/filtering_by_window.sh {input.mapped} {params} {output} "
+        "bash Bin/normalise_coverage/filtering_by_window.sh {input.mapped} {params} {output} "
 
 rule filter_fastq_2:
     input:
@@ -58,7 +58,7 @@ rule extract_reads_per_window_3:
     output:
         "even_native_coverage/{strain}/{sample}_contig_3_fastqs/{window}_all_reads.fastq"
     shell:
-        "bash Bin/filtering_by_window.sh {input.mapped} {params} {output} "
+        "bash Bin/normalise_coverage/filtering_by_window.sh {input.mapped} {params} {output} "
 
 rule filter_fastq_3:
     input:
@@ -78,7 +78,7 @@ rule extract_reads_per_window_4:
     output:
         "even_native_coverage/{strain}/{sample}_contig_4_fastqs/{window}_all_reads.fastq"
     shell:
-        "bash Bin/filtering_by_window.sh {input.mapped} {params} {output} "
+        "bash Bin/normalise_coverage/filtering_by_window.sh {input.mapped} {params} {output} "
 
 rule filter_fastq_4:
     input:
