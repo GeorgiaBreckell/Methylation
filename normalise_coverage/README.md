@@ -1,9 +1,9 @@
-Normalising reads from sequencing experiments for use in Nanodisco 
+## Normalising reads from sequencing experiments for use in Nanodisco 
 
 1. For each strain, a reference genome is required. 
 
 2. Reads are normalised by mapping reads to windows of the genome, a yaml file describing these windows is required.  
-This can be produced with the R script "normalisation_yaml_files.R", which will produce a yaml file for each contig in the genome.  
+This can be produced with the R script *normalisation_yaml_files.R*, which will produce a yaml file for each contig in the genome.  
 ```
 Rscript normalisation_yaml_files.R {reference_genome.fasta}
 ```
@@ -40,10 +40,13 @@ samtools index all_reads_sorted_mapping.bam
 samtools view -h all_reads_sorted_mapping.bam {contig_name} | samtools fastq - > {contig_name}_mapped.fastq
 samtools view -h all_reads_sorted_mapping.bam {contig_name} | samtools depth - > {contig_name}_mapped_coverage.txt
 ```
-repeat for each contig in the genome
+Repeat for each contig in the genome
 
 6. Calculate the 5th percentile coverage for each contig, I used R. 
 ```
+###
+In a R consol
+###
 samples <-c(1,2,3,4) #number of contigs
 for (i in samples){
   print(i)
@@ -60,4 +63,20 @@ seqkit stats {contig_name}_mapped.fastq
 ```
 
 8. Based on the read lengths and coverage target, estimate the number of reads to select per genomic window.  
-Formula: (Window size/mean read length)* target coverage = estimated number of reads per window
+Formula:  
+```
+(Window size/mean read length) * target coverage = estimated number of reads per window
+```
+
+9. Update *normalise_WGA_cov.Snakefile* with the target number of reads for each contig and run 
+```
+snakemake -s normalise_WGA_cov.Snakefile --cores 1 
+```
+** Only use 1 core ** despite each window being processed individually, the subsampling rule merges all fastq into a single output and if these are run in parallel the resulting fastq file will be corrupt.  
+
+Output files will be a dir of marker files for each contig indicating each windows reads were subsampled, and a single fastq for each contig containing the subsampled reads. 
+
+10. Confirm target coverage was achieved by mapping the subsampled reads onto each contig. 
+```
+
+
